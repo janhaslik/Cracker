@@ -1,73 +1,106 @@
-drop database if exists kuberblade;
-create database kuberblade;
+        drop database if exists kubership;
+        create database kubership;
 
-use kuberblade;
+        use kubership;
 
-create table if not exists ships
-(
-    ship_id int primary key auto_increment,
-    name varchar(64),
-    type ENUM('Passenger', 'Cargo'),
-    person_capacity int,
-    container_capacity int,
-    current_location varchar(64),
-    current_value varchar(64),
-    useful_life float,
-    year DATE
-);
+        create table if not exists owner (
+            ownerid int primary key auto_increment,
+            name varchar(64),
+            contactperson varchar(64),
+            contactemail varchar(64)
+        );
 
-create table if not exists crew_member(
-    crew_member_id int primary key auto_increment,
-    ship_id int,
-    name varchar(64),
-    role varchar(64),
-    foreign key (ship_id) references ships(ship_id)
-);
+        create table if not exists user (
+            userid int primary key auto_increment,
+            name varchar(64),
+            email varchar(64),
+            ownerid int,
+            foreign key (ownerid) references owner(ownerid)
+        );
 
-create table if not exists route(
-    route_id int primary key auto_increment,
-    ship_id int,
-    start_time DATE,
-    end_time DATE,
-    departure_location varchar(64),
-    destination_location varchar(64),
-    foreign key (ship_id) references ships(ship_id)
-);
+        create table if not exists ships
+        (
+            shipnr int primary key auto_increment,
+            name varchar(64),
+            owner int,
+            type ENUM('Passenger', 'Cargo'),
+            image varchar(64),
+            currentvalue varchar(64),
+            year DATE
+           # foreign key(owner) references owner(owner_id)
+        );
 
-create table maintenance(
-    maintenance_id int primary Key auto_increment,
-    ship_id int,
-    date DATE,
-    type varchar(64),
-    description text,
-    foreign Key (ship_id) references ships(ship_id)
-);
+        create table if not exists crewmember(
+            crewmemberid int primary key auto_increment,
+            shipnr int,
+            name varchar(64),
+            role varchar(64),
+            foreign key (shipnr) references ships(shipnr),
+            unique (crewmemberid, shipnr)
+        );
 
-INSERT INTO ships (name, type, person_capacity, container_capacity, current_location, current_value, useful_life, year)
-VALUES
-('Thousand Sunny', 'Passenger', 500, 2000, 'Fish-Man Island', '200.000', 50, '2010-01-01'),
-('Going Merry', 'Passenger', 50, NULL, 'Water 7', '200.000', 20,'2000-05-15'),
-('Oro Jackson', 'Cargo', NULL, 10000, 'Unicorn', '1.000.000', 50,'2000-05-15'),
-('Thriller Bark', 'Passenger', 2000, NULL, 'Florian Triangle', '20.000.000.000', 200, '2000-05-15');
+        CREATE TABLE IF NOT EXISTS shipments
+        (
+            shipmentid int primary key auto_increment,
+            shipnr int,
+            starttime DATE,
+            endtime DATE,
+            departurelocation VARCHAR(64),
+            destinationlocation VARCHAR(64),
+            FOREIGN KEY (shipnr) REFERENCES ships(shipnr)
+        );
 
-INSERT INTO crew_member (ship_id, name, role)
-VALUES
-(1, 'Monkey D. Luffy', 'Captain'),
-(1, 'Roronoa Zoro', 'Swordsman'),
-(1, 'Nami', 'Navigator'),
-(1, 'Usopp', 'Sniper'),
-(2, 'Tony Tony Chopper', 'Doctor'),
-(3, 'Gol D. Roger', 'Captain'),
-(4, 'Brook', 'Musician');
 
-INSERT INTO route (ship_id, start_time, end_time, departure_location, destination_location)
-VALUES
-(1, '2022-01-01', '2022-01-15', 'Fish-Man Island', 'Sabaody Archipelago'),
-(2, '2005-03-10', '2005-04-20', 'Water 7', 'Enies Lobby'),
-(3, '2015-06-01', '2015-07-15', 'Florian Triangle', 'Sabaody Archipelago');
+        create table maintenance(
+            maintenanceid int primary Key auto_increment,
+            shipnr int,
+            date DATE,
+            type varchar(64),
+            description text,
+            foreign Key (shipnr) references ships(shipnr)
+        );
 
-INSERT INTO maintenance (ship_id, date, type, description)
-VALUES
-(1, '2022-02-01', 'Engine Overhaul', 'Thousand Sunny underwent a major engine overhaul.'),
-(2, '2005-05-01', 'Hull Repair', 'Going Merry underwent extensive repairs at Water 7.'),
-(3, '2015-08-01', 'Routine Maintenance', 'Thriller Bark received routine maintenance and repairs.');
+        INSERT INTO owner (name, contactperson, contactemail)
+        VALUES
+        ('Red-Haired Shanks', 'Shanks', 'shanks@example.com'),
+        ('Monkey D. Dragon', 'Dragon', 'dragon@example.com'),
+        ('Donquixote Doflamingo', 'Doflamingo', 'doflamingo@example.com');
+
+        INSERT INTO user (name, email, ownerid)
+        VALUES
+        ('Luffy', 'luffy@example.com', 1),
+        ('Zoro', 'zoro@example.com', 1),
+        ('Nami', 'nami@example.com', 1),
+        ('Usopp', 'usopp@example.com', 1),
+        ('Chopper', 'chopper@example.com', 2),
+        ('Gol D. Roger', 'gol@example.com', 3),
+        ('Brook', 'brook@example.com', 3);
+
+        INSERT INTO ships (shipnr, name, owner, type, image, currentvalue, year)
+        VALUES
+        (899,'Thousand Sunny', 1, 'Passenger', 'sunny.jpg', '50', '2010-01-01'),
+        (900,'Going Merry', 1, 'Passenger', 'merry.jpg', '20', '2000-05-15'),
+        (901,'Oro Jackson', 2, 'Cargo', 'oro.jpg', '0','2000-05-15'),
+        (902,'Thriller Bark', 3, 'Passenger', 'thriller.jpg', '2000','2000-05-15');
+
+        INSERT INTO crewmember (shipnr, name, role)
+        VALUES
+        (899, 'Monkey D. Luffy', 'Captain'),
+        (899, 'Roronoa Zoro', 'Swordsman'),
+        (899, 'Nami', 'Navigator'),
+        (899, 'Usopp', 'Sniper'),
+        (899, 'Tony Tony Chopper', 'Doctor'),
+        (901, 'Gol D. Roger', 'Captain'),
+        (902, 'Brook', 'Musician');
+
+        INSERT INTO shipments (shipnr, starttime, endtime, departurelocation, destinationlocation)
+        VALUES
+        (899, '2022-01-01', '2022-01-15', 'Fish-Man Island', 'Sabaody Archipelago'),
+        (901, '2005-03-10', '2005-04-20', 'Water 7', 'Enies Lobby'),
+        (902, '2015-06-01', '2015-07-15', 'Florian Triangle', 'Sabaody Archipelago');
+
+        INSERT INTO maintenance (shipnr, date, type, description)
+        VALUES
+        (900, '2022-02-01', 'Engine Overhaul', 'Thousand Sunny underwent a major engine overhaul.'),
+        (899, '2005-05-01', 'Hull Repair', 'Going Merry underwent extensive repairs at Water 7.'),
+        (902, '2015-08-01', 'Routine Maintenance', 'Thriller Bark received routine maintenance and repairs.');
