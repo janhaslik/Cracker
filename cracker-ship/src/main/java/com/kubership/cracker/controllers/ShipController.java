@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/ships")
+@CrossOrigin("http://localhost:5173")
 public class ShipController {
 
     @Autowired

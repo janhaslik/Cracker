@@ -1,22 +1,29 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom"
-import NavLayout from "./components/NavLayout.tsx"
-import ShipsPage from "./pages/ships/ShipsPage.tsx"
-import './App.css'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import MainLayout from "./components/MainLayout.tsx";
+import ShipsPage from "./pages/ships/shipspage/ShipsPage.tsx";
+import ShipDetailsPage from "./pages/ships/ShipDetailsPage.tsx"
+import './App.css';
 
 function App() {
-
   return (
-    <>
-      <BrowserRouter>
-        <NavLayout/>
-          <Routes>
-            <Route path="/"/>
-            <Route path="/ships" element={<ShipsPage/>}/>
-            <Route path="/ships/:ship"/>
-          </Routes>
-      </BrowserRouter>
-    </>
-  )
+    <BrowserRouter>
+      <Routes>
+        <Route
+          path="/"
+          element={<MainLayout />}
+        >
+          <Route index/>
+        </Route>
+        <Route
+          path="/ships"
+          element={<MainLayout />}
+        >
+          <Route index element={<ShipsPage />} />
+          <Route path=":ship" element={<ShipDetailsPage />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
