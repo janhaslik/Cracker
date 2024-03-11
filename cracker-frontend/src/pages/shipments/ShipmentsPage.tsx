@@ -17,7 +17,6 @@ export default function ShipmentsPage() {
         if (shipmentsData != null) {
           setShipments(shipmentsData);
           setFilteredShipments(shipmentsData)
-          console.log(shipments)
         }
       } catch (error) {
         console.error('Error fetching ship data:', error);

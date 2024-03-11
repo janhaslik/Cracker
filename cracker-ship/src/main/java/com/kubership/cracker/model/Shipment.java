@@ -19,10 +19,11 @@ public class Shipment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int shipmentid;
-    @ManyToOne
-    private Ship shipnr;
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.PERSIST)
+    @JoinColumn(name="ship")
+    private Ship ship;
     private Date starttime;
     private Date endtime;
     private String departurelocation;
-    private String destinationlocation;
+    private String arrivallocation;
 }

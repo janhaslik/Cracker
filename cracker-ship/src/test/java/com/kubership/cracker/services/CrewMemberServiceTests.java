@@ -20,22 +20,6 @@ public class CrewMemberServiceTests {
     @MockBean
     private CrewMemberService mockCrewMemberService;
     @Test
-    void verifyGetCrewMembersByShipnr(){
-        Ship ship=Ship.builder().shipnr(1).name("Thousand Sunny").build();
-
-        CrewMember crewMember=CrewMember.builder().name("Monkey D. Luffy").ship(ship).build();
-        CrewMember crewMember1=CrewMember.builder().name("Lorenor Zoro").ship(ship).build();
-
-        List<CrewMember> expectedCrewMembers= Arrays.asList(crewMember, crewMember1);
-
-        when(mockCrewMemberService.getCrewMembersByShip(ship.getShipnr())).thenReturn(expectedCrewMembers);
-
-        List<CrewMember> crewMembers=mockCrewMemberService.getCrewMembersByShip(ship.getShipnr());
-
-        Assertions.assertEquals(expectedCrewMembers,crewMembers);
-    }
-
-    @Test
     void verifyInsertCrewMember(){
         CrewMember crewMember=CrewMember.builder().name("Lorenor Zoro").build();
 
@@ -74,6 +58,22 @@ public class CrewMemberServiceTests {
     }
 
     @Test
+    void verifyGetCrewMembersByShipnr(){
+        Ship ship=Ship.builder().shipnr(1).name("Thousand Sunny").build();
+
+        CrewMember crewMember=CrewMember.builder().name("Monkey D. Luffy").ship(ship).build();
+        CrewMember crewMember1=CrewMember.builder().name("Lorenor Zoro").ship(ship).build();
+
+        List<CrewMember> expectedCrewMembers= Arrays.asList(crewMember, crewMember1);
+
+        when(mockCrewMemberService.getCrewMembersByShip(ship.getShipnr())).thenReturn(expectedCrewMembers);
+
+        List<CrewMember> crewMembers=mockCrewMemberService.getCrewMembersByShip(ship.getShipnr());
+
+        Assertions.assertEquals(expectedCrewMembers,crewMembers);
+    }
+
+    @Test
     void verifyUpdateCrewMember(){
         CrewMember crewMember=CrewMember.builder().crewmemberid(1).name("Monkey D. Ruffy").build();
         CrewMember updateCrewMember=CrewMember.builder().crewmemberid(1).name("Monkey D. Luffy").build();
@@ -88,5 +88,23 @@ public class CrewMemberServiceTests {
 
         Assertions.assertNotEquals(savedCrewMember, updatedCrewMember);
         Assertions.assertEquals(savedCrewMember.getCrewmemberid(), updateCrewMember.getCrewmemberid());
+    }
+
+    @Test
+    void verifyDeleteCrewMember(){
+        CrewMember crewMember=CrewMember.builder().crewmemberid(1).name("Monkey D. Ruffy").build();
+
+        when(mockCrewMemberService.deleteCrewMember(crewMember.getCrewmemberid())).thenReturn(true);
+
+        boolean success=mockCrewMemberService.deleteCrewMember(crewMember.getCrewmemberid());
+        Assertions.assertTrue(success);
+    }
+
+    @Test
+    void verifyDeleteCrewMemberNotExists(){
+        when(mockCrewMemberService.deleteCrewMember(1001)).thenReturn(false);
+
+        boolean success=mockCrewMemberService.deleteCrewMember(1001);
+        Assertions.assertFalse(success);
     }
 }

@@ -20,6 +20,30 @@ public class ShipServiceTests {
     @MockBean
     private ShipService mockShipService;
     @Test
+    void verifyInsertShip(){
+        Ship expectedShip=Ship.builder().owner(1).name("Oro Jackson").build();
+
+        when(mockShipService.insertShip(expectedShip)).thenReturn(expectedShip);
+        Ship ship=mockShipService.insertShip(expectedShip);
+
+        Assertions.assertNotNull(ship);
+        Assertions.assertEquals(expectedShip,ship);
+    }
+
+    @Test
+    void verifyInsertShipAlreadyExists(){
+        Ship expectedShip=Ship.builder().owner(1).name("Oro Jackson").build();
+
+        when(mockShipService.insertShip(expectedShip)).thenReturn(expectedShip);
+        Ship ship=mockShipService.insertShip(expectedShip);
+
+        when(mockShipService.insertShip(expectedShip)).thenReturn(null);
+        Ship shipNull=mockShipService.insertShip(expectedShip);
+
+        Assertions.assertNull(shipNull);
+    }
+
+    @Test
     void verifyGetShipsByOwner(){
         Ship ship=Ship.builder().owner(1).build();
         Ship ship1=Ship.builder().owner(1).build();
@@ -45,30 +69,6 @@ public class ShipServiceTests {
     }
 
     @Test
-    void verifyInsertShip(){
-        Ship expectedShip=Ship.builder().owner(1).name("Oro Jackson").build();
-
-        when(mockShipService.insertShip(expectedShip)).thenReturn(expectedShip);
-        Ship ship=mockShipService.insertShip(expectedShip);
-
-        Assertions.assertNotNull(ship);
-        Assertions.assertEquals(expectedShip,ship);
-    }
-
-    @Test
-    void verifyInsertShipAlreadyExists(){
-        Ship expectedShip=Ship.builder().owner(1).name("Oro Jackson").build();
-
-        when(mockShipService.insertShip(expectedShip)).thenReturn(expectedShip);
-        Ship ship=mockShipService.insertShip(expectedShip);
-
-        when(mockShipService.insertShip(expectedShip)).thenReturn(null);
-        Ship shipNull=mockShipService.insertShip(expectedShip);
-
-        Assertions.assertNull(shipNull);
-    }
-
-    @Test
     void verifyUpdateShip(){
         Ship expectedShip=Ship.builder().owner(1).name("Oro Jackson").build();
         Ship updateShip=Ship.builder().owner(1).name("Ono Jackson").build();
@@ -80,5 +80,23 @@ public class ShipServiceTests {
         mockShipService.updateShip(updateShip);
 
         Assertions.assertNotEquals(insertedShip, updateShip);
+    }
+
+    @Test
+    void verifyDeleteShip(){
+        Ship expectedShip=Ship.builder().shipnr(1001).owner(1).name("Oro Jackson").build();
+
+        when(mockShipService.deleteShip(expectedShip.getShipnr())).thenReturn(true);
+
+        boolean success=mockShipService.deleteShip(expectedShip.getShipnr());
+        Assertions.assertTrue(success);
+    }
+
+    @Test
+    void veriyDeleteShipNotExists(){
+        when(mockShipService.deleteShip(1001)).thenReturn(false);
+
+        boolean success=mockShipService.deleteShip(1001);
+        Assertions.assertFalse(success);
     }
 }

@@ -7,7 +7,7 @@ interface ShipmentsTableInterface{
 
 const columns: GridColDef[] = [
     { field: 'shipmentid', headerName: 'Shipment ID', width: 100 },
-    { field: 'shipnr', headerName: 'Ship Nr', width: 150 },
+    { field: 'ship', headerName: 'Ship Nr', width: 150, valueGetter: (params)=>params.row?.ship.shipnr },
     { field: 'starttime', headerName: 'Start Time', width: 130 },
     {
       field: 'endtime',
@@ -29,7 +29,7 @@ const columns: GridColDef[] = [
 export default function ShipmentsTable(props: ShipmentsTableInterface){
     const getRowId = (ship: Shipment) => ship.shipmentid.toString();
 
-    
+    console.log(props.shipments)
     return <>
         <DataGrid
                 rows={props.shipments}

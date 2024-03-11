@@ -3,16 +3,12 @@ package com.kubership.cracker.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
 @Table(name = "ships")
@@ -28,4 +24,25 @@ public class Ship{
     private String image;
     private String currentvalue;
     private Date year;
+
+    @OneToMany(mappedBy = "ship",cascade = CascadeType.PERSIST)
+    @JsonIgnore
+    private List<Shipment> shipments;
+
+    @Builder
+    public Ship(int shipnr, String name, int owner, String type, String image, String currentvalue, Date year){
+        this.shipnr=shipnr;
+        this.name=name;
+        this.owner=owner;
+        this.type=type;
+        this.image=image;
+        this.currentvalue=currentvalue;
+        this.year=year;
+        shipments=new ArrayList<>();
+    }
+
+    @Builder
+    public Ship(){
+        shipments=new ArrayList<>();
+    }
 }

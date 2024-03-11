@@ -2,16 +2,27 @@ package com.kubership.cracker.services;
 
 import com.kubership.cracker.model.Ship;
 import com.kubership.cracker.repository.ShipRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class ShipService {
 
     @Autowired
     private ShipRepository shipRepository;
+
+    public Ship insertShip(Ship ship){
+        if(ship==null)return null;
+
+        Ship shipExists=shipRepository.findShipByShipnr(ship.getShipnr());
+        if(shipExists!=null)return null;
+
+        return shipRepository.save(ship);
+    }
 
     public List<Ship> getShipsByOwner(int owner){
         if(owner<0)return null;
@@ -22,15 +33,6 @@ public class ShipService {
     public Ship getShip(int shipnr){
         if(shipnr<0)return null;
         return shipRepository.findShipByShipnr(shipnr);
-    }
-
-    public Ship insertShip(Ship ship){
-        if(ship==null)return null;
-
-        Ship shipExists=shipRepository.findShipByShipnr(ship.getShipnr());
-        if(shipExists!=null)return null;
-
-        return shipRepository.save(ship);
     }
 
     public Ship updateShip(Ship ship){

@@ -27,7 +27,16 @@
             image varchar(64),
             currentvalue varchar(64),
             year DATE
-           # foreign key(owner) references owner(owner_id)
+        );
+
+        create table if not exists planes
+        (
+            planenr int primary key auto_increment,
+            owner int,
+            type ENUM('Passenger', 'Cargo'),
+            image varchar(64),
+            currentvalue varchar(64),
+            year DATE
         );
 
         create table if not exists crewmember(
@@ -39,15 +48,24 @@
             unique (crewmemberid, shipnr)
         );
 
+        create table if not exists planecrewmember(
+            crewmemberid int primary key auto_increment,
+            planenr int,
+            name varchar(64),
+            role varchar(64),
+            foreign key (planenr) references planes(planenr),
+            unique (crewmemberid, planenr)
+        );
+
         CREATE TABLE IF NOT EXISTS shipments
         (
             shipmentid int primary key auto_increment,
-            shipnr int,
+            ship int,
             starttime DATE,
             endtime DATE,
             departurelocation VARCHAR(64),
-            destinationlocation VARCHAR(64),
-            FOREIGN KEY (shipnr) REFERENCES ships(shipnr)
+            arrivallocation VARCHAR(64),
+            FOREIGN KEY (ship) REFERENCES ships(shipnr)
         );
 
 
@@ -55,7 +73,7 @@
             maintenanceid int primary Key auto_increment,
             shipnr int,
             date DATE,
-            type varchar(64),
+            type ENUM('Scheduled','Routine','Emergency'),
             description text,
             foreign Key (shipnr) references ships(shipnr)
         );
@@ -93,14 +111,17 @@
         (901, 'Gol D. Roger', 'Captain'),
         (902, 'Brook', 'Musician');
 
-        INSERT INTO shipments (shipnr, starttime, endtime, departurelocation, destinationlocation)
+        INSERT INTO shipments (ship, starttime, endtime, departurelocation, arrivallocation)
         VALUES
         (899, '2022-01-01', '2022-01-15', 'Fish-Man Island', 'Sabaody Archipelago'),
+        (899, '2024-01-01', '2022-01-15', 'Dress Rosa', 'Wano Kuni'),
+        (900, '2005-03-10', '2005-04-20', 'East Blue', 'Alabasta'),
         (901, '2005-03-10', '2005-04-20', 'Water 7', 'Enies Lobby'),
         (902, '2015-06-01', '2015-07-15', 'Florian Triangle', 'Sabaody Archipelago');
 
         INSERT INTO maintenance (shipnr, date, type, description)
         VALUES
-        (900, '2022-02-01', 'Engine Overhaul', 'Thousand Sunny underwent a major engine overhaul.'),
-        (899, '2005-05-01', 'Hull Repair', 'Going Merry underwent extensive repairs at Water 7.'),
-        (902, '2015-08-01', 'Routine Maintenance', 'Thriller Bark received routine maintenance and repairs.');
+        (900, '2022-02-01', 'Scheduled', 'Thousand Sunny underwent a major engine overhaul.'),
+        (899, '2004-05-01', 'Emergency', 'Going Merry last repairs'),
+        (899, '2005-05-01', 'Emergency', 'Going Merry underwent extensive repairs at Water 7.'),
+        (902, '2015-08-01', 'Routine', 'Thriller Bark received routine maintenance and repairs.');

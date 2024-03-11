@@ -1,7 +1,6 @@
 package com.kubership.cracker.controllers;
 
 import com.kubership.cracker.model.CrewMember;
-import com.kubership.cracker.model.Ship;
 import com.kubership.cracker.services.CrewMemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,7 +11,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/crewmembers")
-public class ShipMemberController {
+@CrossOrigin("http://localhost:5173")
+public class CrewMemberController {
 
     @Autowired
     private CrewMemberService crewMemberService;

@@ -1,7 +1,9 @@
 package com.kubership.cracker.services;
 
 import com.kubership.cracker.model.CrewMember;
+import com.kubership.cracker.model.Ship;
 import com.kubership.cracker.repository.CrewMemberRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,14 +11,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class CrewMemberService {
 
     @Autowired
     private CrewMemberRepository crewMemberRepository;
-    public List<CrewMember> getCrewMembersByShip(int shipnr){
-        return crewMemberRepository.getCrewMembersByShipShipnr(shipnr);
-    }
-
     public CrewMember insertCrewMember(CrewMember crewMember){
         if(crewMember==null)return null;
         Optional<CrewMember> crewMemberExists=crewMemberRepository.findById(crewMember.getCrewmemberid());
@@ -32,6 +31,10 @@ public class CrewMemberService {
         return crewMemberRepository.saveAll(crewMembers);
     }
 
+    public List<CrewMember> getCrewMembersByShip(int shipnr){
+        return crewMemberRepository.getCrewMembersByShipShipnr(shipnr);
+    }
+
     public CrewMember updateCrewMember(CrewMember crewMember){
         Optional<CrewMember> crewMemberExists=crewMemberRepository.findById(crewMember.getCrewmemberid());
 
@@ -43,5 +46,15 @@ public class CrewMemberService {
         crewMemberUpdated.setRole(crewMember.getRole());
 
         return crewMemberRepository.save(crewMemberUpdated);
+    }
+
+    public boolean deleteCrewMember(int crewMemberId){
+        if(crewMemberId<0)return false;
+
+        Optional<CrewMember> crewMemberExists=crewMemberRepository.findById(crewMemberId);
+        if(crewMemberExists.isEmpty())return false;
+
+        crewMemberRepository.delete(crewMemberExists.get());
+        return true;
     }
 }

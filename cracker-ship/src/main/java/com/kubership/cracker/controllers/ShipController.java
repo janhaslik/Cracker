@@ -18,6 +18,15 @@ public class ShipController {
 
     @Autowired
     private ShipService shipService;
+    @PostMapping()
+    public ResponseEntity<Ship> insertShip(@RequestBody Ship shipBody){
+        if(shipBody==null) return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+        Ship ship=shipService.insertShip(shipBody);
+
+        if(ship==null)return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(ship, HttpStatus.OK);
+    }
 
     @GetMapping()
     public ResponseEntity<List<Ship>> getShips(@RequestParam(value = "ownerid", required = true) int ownerNr){
@@ -35,16 +44,6 @@ public class ShipController {
         Ship ship=shipService.getShip(shipnr);
         if(ship==null)return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
-        return new ResponseEntity<>(ship, HttpStatus.OK);
-    }
-
-    @PostMapping()
-    public ResponseEntity<Ship> insertShip(@RequestBody Ship shipBody){
-        if(shipBody==null) return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-
-        Ship ship=shipService.insertShip(shipBody);
-
-        if(ship==null)return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(ship, HttpStatus.OK);
     }
 
