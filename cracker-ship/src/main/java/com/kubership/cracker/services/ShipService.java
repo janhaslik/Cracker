@@ -47,4 +47,14 @@ public class ShipService {
 
         return shipRepository.save(shipExists);
     }
+
+    public boolean deleteShip(int shipnr){
+        if(shipnr<0)return false;
+
+        Ship shipExists=shipRepository.findShipByShipnr(shipnr);
+        if(shipExists==null)return false;
+
+        shipRepository.delete(shipExists);
+        return true;
+    }
 }

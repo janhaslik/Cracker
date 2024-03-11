@@ -2,9 +2,10 @@ import { useState, useEffect } from 'react';
 import shipService from '../../../services/shipService';
 import Ship from '../../../interfaces/ship';
 import { Input } from '@mui/base';
-import { Button } from '@mui/material';
 import "../../../style/ships.css"
 import ShipsTable from './ShipsTable';
+import NewShip from './NewShip';
+import TextField from '@mui/material/TextField';
 
 export default function ShipsPage() {
   const [ships, setShips] = useState<Ship[]>([]);
@@ -40,9 +41,9 @@ export default function ShipsPage() {
 
   return (
     <div style={{ height: 400, width: '100%', minHeight: "80vh"}}>
-        <div className="ship-search-create">
-            <Input className="ship-search" value={filterValue} onChange={handleSearchChange} placeholder='Search for ship name...'/>
-            <Button color='secondary' className='newship-button'>New Ship</Button>
+        <div className="datagrid-search-create">
+            <Input className="datagrid-search" value={filterValue} onChange={handleSearchChange} placeholder='Search for ship name...'/>
+            <NewShip/>
         </div>
         <ShipsTable ships={filteredShips}/>
     </div>

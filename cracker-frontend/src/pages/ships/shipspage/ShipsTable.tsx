@@ -1,12 +1,15 @@
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import Ship from '../../../interfaces/ship';
 import { useNavigate } from 'react-router';
+import { IconButton } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 interface ShipsTableInterface{
     ships: Ship[],
 }
 
-const columns: GridColDef[] = [
+export default function ShipsTable(props: ShipsTableInterface){
+  const columns: GridColDef[] = [
     { field: 'shipnr', headerName: 'Ship Nr', width: 100 },
     { field: 'name', headerName: 'Name', width: 150 },
     { field: 'type', headerName: 'Type', width: 130 },
@@ -19,10 +22,19 @@ const columns: GridColDef[] = [
       field: 'year',
       headerName: 'Year',
       width: 160,
-    }
+    },
+    {
+      headerName: "Delete",
+      field: "delete",
+      width: 100,
+      renderCell: (params) => (
+        <IconButton color="secondary" onClick={(e) => handleDeleteClick(e, params.row.shipnr)}>
+          <DeleteIcon />
+        </IconButton>
+      ),
+    },
   ];
 
-export default function ShipsTable(props: ShipsTableInterface){
     const getRowId = (ship: Ship) => ship.shipnr.toString();
     const navigate=useNavigate()
 
@@ -31,6 +43,12 @@ export default function ShipsTable(props: ShipsTableInterface){
     
         navigate(`/ships/${selectedShipId}`)
       }
+
+      const handleDeleteClick = (e: React.MouseEvent, shipId: number) => {
+        e.stopPropagation();
+        console.log(`Deleting ship with ID ${shipId}`);
+      };
+    
     
     return <>
         <DataGrid

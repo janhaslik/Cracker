@@ -33,6 +33,8 @@ public class ShipController {
         if(shipnr<0)return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         Ship ship=shipService.getShip(shipnr);
+        if(ship==null)return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
         return new ResponseEntity<>(ship, HttpStatus.OK);
     }
 
@@ -43,7 +45,6 @@ public class ShipController {
         Ship ship=shipService.insertShip(shipBody);
 
         if(ship==null)return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-
         return new ResponseEntity<>(ship, HttpStatus.OK);
     }
 
@@ -56,5 +57,15 @@ public class ShipController {
         if(ship==null)return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         return new ResponseEntity<>(ship, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{shipnr}")
+    public ResponseEntity<Ship> deleteShip(@PathVariable("shipnr") int shipnr){
+        if(shipnr<0)return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        boolean success=shipService.deleteShip(shipnr);
+        if(!success)return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

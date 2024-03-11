@@ -1,17 +1,22 @@
-.ship-search-create{
+.datagrid-search-create{
     display: flex;
     flex-direction: row;
-    justify-content: start;
+    justify-content: space-between;
     align-items: center;
     margin-bottom: 1em;
 }
 
-.ship-search input{
-    border-radius: 5px;
+.datagrid-search input{
     outline: none;
     border: none;
     padding: 9px 20px 9px 7.5px;
 }
-.newship-button{
+
+.datagrid-search input:focus{
+    border-bottom: 1px solid black;
+}
+
+.datagrid-new-button{
     margin-bottom: 1em;
+    margin-left: auto;
 }
