@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import { Input } from '@mui/base';
 import { Button } from '@mui/material';
-import Shipment from '../../interfaces/shipment';
 import ShipmentsTable from './ShipmentsTable';
 import shipService from '../../services/shipService';
+import ShipShipment from '../../interfaces/shipShipment';
 
 export default function ShipmentsPage() {
-  const [shipments, setShipments] = useState<Shipment[]>([]);
-  const [filteredShipments, setFilteredShipments]=useState<Shipment[]>(shipments);
+  const [shipments, setShipments] = useState<ShipShipment[]>([]);
+  const [filteredShipments, setFilteredShipments]=useState<ShipShipment[]>(shipments);
   const [filterValue, setFilterValue] = useState<string>('');
 
   useEffect(() => {
@@ -33,7 +33,7 @@ export default function ShipmentsPage() {
     if(searchTerm.trim()==''){
       setFilteredShipments(shipments)
     }else{
-      setFilteredShipments(shipments.filter(shipment=>shipment.shipmentid.toString().includes(searchTerm.toLowerCase())))
+      setFilteredShipments(shipments.filter(shipment=>shipment.shipment.shipmentid.toString().includes(searchTerm.toLowerCase())))
     }
   }
 

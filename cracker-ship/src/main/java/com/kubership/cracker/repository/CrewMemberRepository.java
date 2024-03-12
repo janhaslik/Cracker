@@ -7,5 +7,4 @@ import java.util.List;
 
 public interface CrewMemberRepository extends JpaRepository<CrewMember, Integer> {
 
-    List<CrewMember> getCrewMembersByShipShipnr(int shipnr);
 }

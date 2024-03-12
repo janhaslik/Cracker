@@ -1,23 +1,39 @@
 package com.kubership.cracker.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "crewmember")
+@Table(name = "crewmembers")
 public class CrewMember {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int crewmemberid;
-    @ManyToOne
-    private Ship ship;
     private String name;
     private String role;
+
+    @OneToMany(mappedBy = "crewmember",cascade = CascadeType.PERSIST)
+    @JsonIgnore
+    private List<Ship_CrewMember> crewMembers;
+
+    @Builder
+    public CrewMember(int crewmemberid, String name, String role){
+        this.crewmemberid=crewmemberid;
+        this.name=name;
+        this.role=role;
+        crewMembers=new ArrayList<>();
+    }
+
+    @Builder
+    public CrewMember(){
+        crewMembers=new ArrayList<>();
+    }
 }
 

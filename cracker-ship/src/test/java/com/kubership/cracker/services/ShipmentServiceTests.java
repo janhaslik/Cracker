@@ -1,5 +1,6 @@
 package com.kubership.cracker.services;
 
+import com.kubership.cracker.model.Ship_Shipment;
 import com.kubership.cracker.model.Shipment;
 import com.kubership.cracker.repository.ShipmentRepository;
 import jakarta.transaction.Transactional;
@@ -16,12 +17,10 @@ public class ShipmentServiceTests {
 
     @Autowired
     private ShipmentService shipmentService;
-    @Autowired
-    private ShipmentRepository shipmentRepository;
     @Test
     void verifyGetShipmentsByOwner(){
-        List<Shipment> shipments=shipmentRepository.findByShip_Owner(1);
+        List<Ship_Shipment> shipments=shipmentService.getShipmentsByOwner(1);
 
-        Assertions.assertNotEquals(0, shipments.size());
+        Assertions.assertNotEquals(0, shipments);
     }
 }

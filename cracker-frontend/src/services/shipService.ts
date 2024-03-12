@@ -6,7 +6,7 @@ async function getShips(){
 }
 
 async function getShipments(){
-    let res=await (await fetch("http://localhost:9000/api/shipments?ownerid=1")).json()
+    let res=await (await fetch("http://localhost:9000/api/ships/shipments?ownerid=1")).json()
     return res
 }
 
