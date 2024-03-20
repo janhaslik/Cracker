@@ -1,11 +1,16 @@
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import ShipShipment from '../../interfaces/shipShipment';
+import shipService from '../../services/shipService';
+import { IconButton } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 interface ShipmentsTableInterface{
     shipments: ShipShipment[],
 }
 
-const columns: GridColDef[] = [
+export default function ShipmentsTable(props: ShipmentsTableInterface){
+  console.log(props.shipments)
+  const columns: GridColDef[] = [
     { field: 'shipmentid', headerName: 'Shipment ID', width: 100,valueGetter: (params)=>params.row?.shipment.shipmentid },
     { field: 'ship', headerName: 'Ship Nr', width: 150, valueGetter: (params)=>params.row?.ship.shipnr },
     { field: 'starttime', headerName: 'Start Time', width: 130,valueGetter: (params)=>params.row?.shipment.starttime  },
@@ -26,13 +31,26 @@ const columns: GridColDef[] = [
       headerName: 'Arrival Location',
       width: 160,
       valueGetter: (params)=>params.row?.shipment.arrivallocation
-    }
+    },
+    {
+      headerName: "Delete",
+      field: "delete",
+      width: 100,
+      renderCell: (params) => (
+        <IconButton color="secondary" onClick={(e) => handleDeleteClick(e, params.row.id)}>
+          <DeleteIcon />
+        </IconButton>
+      ),
+    },
   ];
 
-export default function ShipmentsTable(props: ShipmentsTableInterface){
     const getRowId = (ship: ShipShipment) => ship.shipment.shipmentid.toString();
 
-    console.log(props.shipments)
+    const handleDeleteClick = (e: React.MouseEvent, shipNr: number) => {
+      e.stopPropagation();
+      shipService.deleteShipment(shipNr)
+    };
+
     return <>
         <DataGrid
                 rows={props.shipments}

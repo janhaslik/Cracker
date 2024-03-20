@@ -1,9 +1,8 @@
 package com.kubership.cracker.services;
 
-import com.kubership.cracker.model.CrewMember;
-import com.kubership.cracker.model.Ship;
-import com.kubership.cracker.model.Ship_CrewMember;
+import com.kubership.cracker.model.*;
 import com.kubership.cracker.repository.CrewMemberRepository;
+import com.kubership.cracker.repository.ShipRepository;
 import com.kubership.cracker.repository.Ship_CrewMemberRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,16 +18,26 @@ public class CrewMemberService {
     @Autowired
     private CrewMemberRepository crewMemberRepository;
     @Autowired
-    private Ship_CrewMemberRepository shipCrewMemberRepository;
-    public Ship_CrewMember insertCrewMember(Ship_CrewMember crewMember){
-        if(crewMember==null)return null;
-        Optional<Ship_CrewMember> crewMemberExists=shipCrewMemberRepository.findById(crewMember.getId());
+    private Ship_CrewMemberRepository ship_crewMemberRepository;
+    @Autowired
+    private ShipRepository shipRepository;
+    public Ship_CrewMember insertCrewMember(Ship_CrewMember shipCrewMember) {
+        if (shipCrewMember == null) return null;
 
-        if(crewMemberExists.isPresent())return null;
+        CrewMember crewMember = shipCrewMember.getCrewmember();
+        Ship ship = shipRepository.findShipByShipnr(shipCrewMember.getShip().getShipnr());
 
-        crewMemberRepository.save(crewMember.getCrewmember());
+        if (crewMember == null || ship == null) return null;
 
-        return shipCrewMemberRepository.save(crewMember);
+        Optional<CrewMember> existingCrewMember= crewMemberRepository.findById(crewMember.getCrewmemberid());
+        if (existingCrewMember.isPresent()) return null;
+
+        crewMember = crewMemberRepository.save(crewMember);
+
+        shipCrewMember.setCrewmember(crewMember);
+        shipCrewMember.setShip(ship);
+
+        return ship_crewMemberRepository.save(shipCrewMember);
     }
 
     public List<CrewMember> insertCrewMembers(List<CrewMember> crewMembers){
@@ -37,10 +46,16 @@ public class CrewMemberService {
         return crewMemberRepository.saveAll(crewMembers);
     }
 
-    public List<Ship_CrewMember> getCrewMembersByShip(int shipnr){
+    public List<Ship_CrewMember> getCrewMembersByShipnr(int shipnr){
         if(shipnr<0)return null;
 
-        return shipCrewMemberRepository.findShip_CrewMemberByShip_Shipnr(shipnr);
+        return ship_crewMemberRepository.findShip_CrewMemberByShip_Shipnr(shipnr);
+    }
+
+    public List<Ship_CrewMember> getCrewMembersByOwnerid(int ownerid){
+        if(ownerid<0)return null;
+
+        return ship_crewMemberRepository.findShip_CrewMemberByShip_Owner(ownerid);
     }
 
     public CrewMember updateCrewMember(CrewMember crewMember){
@@ -54,14 +69,22 @@ public class CrewMemberService {
 
         return crewMemberRepository.save(crewMemberUpdated);
     }
+    public boolean deleteCrewMember(int crewmemberid) {
+        if (crewmemberid < 0) return false;
 
-    public boolean deleteCrewMember(int crewMemberId){
-        if(crewMemberId<0)return false;
+        Optional<Ship_CrewMember> savedShipCrewMember = ship_crewMemberRepository.findById(crewmemberid);
 
-        Optional<CrewMember> crewMemberExists=crewMemberRepository.findById(crewMemberId);
-        if(crewMemberExists.isEmpty())return false;
+        if (savedShipCrewMember.isEmpty()) return false;
 
-        crewMemberRepository.delete(crewMemberExists.get());
+        Ship_CrewMember crewMember = savedShipCrewMember.get();
+        crewMember.getShip().getCrewmembers().remove(crewMember);
+        crewMember.setShip(null);
+
+        crewMemberRepository.delete(crewMember.getCrewmember());
+
+        ship_crewMemberRepository.delete(crewMember);
+
         return true;
     }
+
 }

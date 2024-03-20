@@ -4,6 +4,7 @@ import { Button } from '@mui/material';
 import ShipmentsTable from './ShipmentsTable';
 import shipService from '../../services/shipService';
 import ShipShipment from '../../interfaces/shipShipment';
+import NewShipmentModal from './NewShipment';
 
 export default function ShipmentsPage() {
   const [shipments, setShipments] = useState<ShipShipment[]>([]);
@@ -14,10 +15,8 @@ export default function ShipmentsPage() {
     const getShipments = async () => {
       try {
         const shipmentsData = await shipService.getShipments();
-        if (shipmentsData != null) {
           setShipments(shipmentsData);
           setFilteredShipments(shipmentsData)
-        }
       } catch (error) {
         console.error('Error fetching ship data:', error);
       }
@@ -41,7 +40,7 @@ export default function ShipmentsPage() {
     <div style={{ height: 400, width: '100%', minHeight: "80vh"}}>
         <div className="datagrid-search-create">
             <Input className="datagrid-search" value={filterValue} onChange={handleSearchChange} placeholder='Search for shipment id...'/>
-            <Button color='secondary' className='datagrid-new-button'>New Shipment</Button>
+            <NewShipmentModal/>
         </div>
         <ShipmentsTable shipments={filteredShipments}/>
     </div>

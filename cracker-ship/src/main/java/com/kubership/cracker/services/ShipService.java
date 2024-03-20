@@ -1,6 +1,6 @@
 package com.kubership.cracker.services;
 
-import com.kubership.cracker.model.Ship;
+import com.kubership.cracker.model.*;
 import com.kubership.cracker.repository.ShipRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +14,12 @@ public class ShipService {
 
     @Autowired
     private ShipRepository shipRepository;
+    @Autowired
+    private ShipmentService shipmentService;
+    @Autowired
+    private MaintenanceService maintenanceService;
+    @Autowired
+    private CrewMemberService crewMemberService;
 
     public Ship insertShip(Ship ship){
         if(ship==null)return null;
@@ -55,6 +61,18 @@ public class ShipService {
 
         Ship shipExists=shipRepository.findShipByShipnr(shipnr);
         if(shipExists==null)return false;
+
+        for(Ship_Shipment shipment: shipExists.getShipments()){
+            shipmentService.deleteShipment(shipment.getShipment().getShipmentid());
+        }
+
+        for(Ship_CrewMember crewMember: shipExists.getCrewmembers()){
+            crewMemberService.deleteCrewMember(crewMember.getCrewmember().getCrewmemberid());
+        }
+
+        for(Ship_Maintenance maintenance: shipExists.getMaintenances()){
+            maintenanceService.deleteMaintenance(maintenance.getId());
+        }
 
         shipRepository.delete(shipExists);
         return true;

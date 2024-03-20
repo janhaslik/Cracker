@@ -43,7 +43,7 @@ export default function NavLayout() {
   const secondarySidebarItems: SidebarItem[]=[
     { name: 'Shipments', icon: ShipmentsIcon, link: '/shipments' },
     { name: 'Maintenances', icon: MaintenancesIcon, link: '/maintenances' },
-    { name: 'Crew members', icon: CrewMembersIcon, link: '/crew-members' },
+    { name: 'Crew members', icon: CrewMembersIcon, link: '/crewmembers' },
   ]
 
   return (

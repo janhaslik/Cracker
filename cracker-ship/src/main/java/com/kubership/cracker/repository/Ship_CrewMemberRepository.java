@@ -10,4 +10,6 @@ import java.util.List;
 public interface Ship_CrewMemberRepository extends JpaRepository<Ship_CrewMember, Integer> {
 
     List<Ship_CrewMember> findShip_CrewMemberByShip_Shipnr(int shipnr);
+
+    List<Ship_CrewMember> findShip_CrewMemberByShip_Owner(int ownerid);
 }

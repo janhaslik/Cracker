@@ -51,20 +51,20 @@ public class ShipController {
     public ResponseEntity<Ship> updateShip(@RequestBody Ship shipBody){
         if(shipBody==null) return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
-        Ship ship=shipService.updateShip(shipBody);
+        Ship updatedShip=shipService.updateShip(shipBody);
 
-        if(ship==null)return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if(updatedShip==null)return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-        return new ResponseEntity<>(ship, HttpStatus.OK);
+        return new ResponseEntity<>(updatedShip, HttpStatus.OK);
     }
 
     @DeleteMapping("/{shipnr}")
-    public ResponseEntity<Ship> deleteShip(@PathVariable("shipnr") int shipnr){
+    public ResponseEntity deleteShip(@PathVariable("shipnr") int shipnr){
         if(shipnr<0)return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         boolean success=shipService.deleteShip(shipnr);
         if(!success)return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(success, HttpStatus.OK);
     }
 }

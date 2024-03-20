@@ -35,11 +35,11 @@ public class Shipment {
         this.endtime=endtime;
         this.departurelocation=departurelocation;
         this.arrivallocation=arrivallocation;
-        shipments=new ArrayList<>();
+        this.shipments=new ArrayList<>();
     }
 
     @Builder
     public Shipment(){
-        shipments=new ArrayList<>();
+        this.shipments=new ArrayList<>();
     }
 }

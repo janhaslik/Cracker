@@ -28,12 +28,12 @@ public class CrewMember {
         this.crewmemberid=crewmemberid;
         this.name=name;
         this.role=role;
-        crewMembers=new ArrayList<>();
+        this.crewMembers=new ArrayList<>();
     }
 
     @Builder
     public CrewMember(){
-        crewMembers=new ArrayList<>();
+        this.crewMembers=new ArrayList<>();
     }
 }
 

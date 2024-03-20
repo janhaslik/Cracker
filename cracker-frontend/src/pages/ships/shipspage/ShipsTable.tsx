@@ -3,6 +3,7 @@ import Ship from '../../../interfaces/ship';
 import { useNavigate } from 'react-router';
 import { IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
+import shipService from '../../../services/shipService';
 
 interface ShipsTableInterface{
     ships: Ship[],
@@ -44,9 +45,9 @@ export default function ShipsTable(props: ShipsTableInterface){
         navigate(`/ships/${selectedShipId}`)
       }
 
-      const handleDeleteClick = (e: React.MouseEvent, shipId: number) => {
+      const handleDeleteClick = (e: React.MouseEvent, shipNr: number) => {
         e.stopPropagation();
-        console.log(`Deleting ship with ID ${shipId}`);
+        shipService.deleteShip(shipNr)
       };
     
     

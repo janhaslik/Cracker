@@ -27,7 +27,15 @@ public class Ship{
 
     @OneToMany(mappedBy = "ship",cascade = CascadeType.PERSIST)
     @JsonIgnore
-    private List<Ship_Shipment> ships;
+    private List<Ship_Shipment> shipments;
+
+    @OneToMany(mappedBy = "ship",cascade = CascadeType.PERSIST)
+    @JsonIgnore
+    private List<Ship_CrewMember> crewmembers;
+
+    @OneToMany(mappedBy = "ship",cascade = CascadeType.PERSIST)
+    @JsonIgnore
+    private List<Ship_Maintenance> maintenances;
 
     @Builder
     public Ship(int shipnr, String name, int owner, String type, String image, String currentvalue, Date year){
@@ -38,11 +46,15 @@ public class Ship{
         this.image=image;
         this.currentvalue=currentvalue;
         this.year=year;
-        this.ships=new ArrayList<>();
+        this.shipments=new ArrayList<>();
+        this.crewmembers=new ArrayList<>();
+        this.maintenances=new ArrayList<>();
     }
 
     @Builder
     public Ship(){
-        this.ships=new ArrayList<>();
+        this.shipments=new ArrayList<>();
+        this.crewmembers=new ArrayList<>();
+        this.maintenances=new ArrayList<>();
     }
 }

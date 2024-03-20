@@ -33,10 +33,10 @@ public class Maintenance {
         this.date=date;
         this.type=type;
         this.description=description;
-        maintenances = new ArrayList<>();
+        this.maintenances = new ArrayList<>();
     }
     @Builder
     public Maintenance(){
-        maintenances=new ArrayList<>();
+        this.maintenances=new ArrayList<>();
     }
 }

@@ -11,4 +11,5 @@ import java.util.List;
 @Repository
 public interface Ship_ShipmentRepository extends JpaRepository<Ship_Shipment, Integer> {
     List<Ship_Shipment> findByShip_Owner(int owner);
+    List<Ship_Shipment> findByShip_Shipnr(int shipnr);
 }

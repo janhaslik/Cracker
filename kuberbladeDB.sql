@@ -41,11 +41,8 @@
 
         create table if not exists crewmembers(
             crewmemberid int primary key auto_increment,
-            shipnr int,
             name varchar(64),
-            role varchar(64),
-            foreign key (shipnr) references ships(shipnr),
-            unique (crewmemberid, shipnr)
+            role varchar(64)
         );
 
         create table if not exists ships_crewmembers(
@@ -140,18 +137,18 @@
         (901,'Oro Jackson', 2, 'Cargo', 'oro.jpg', '0','2000-05-15'),
         (902,'Thriller Bark', 3, 'Passenger', 'thriller.jpg', '2000','2000-05-15');
 
-        INSERT INTO crewmembers (shipnr, name, role)
+        INSERT INTO crewmembers (name, role)
         VALUES
-        (899, 'Monkey D. Luffy', 'Captain'),
-        (899, 'Roronoa Zoro', 'Swordsman'),
-        (899, 'Nami', 'Navigator'),
-        (899, 'Usopp', 'Sniper'),
-        (899, 'Tony Tony Chopper', 'Doctor'),
-        (901, 'Gol D. Roger', 'Captain'),
-        (902, 'Brook', 'Musician');
+        ('Monkey D. Luffy', 'Captain'),
+        ('Roronoa Zoro', 'Swordsman'),
+        ('Nami', 'Navigator'),
+        ('Usopp', 'Sniper'),
+        ('Tony Tony Chopper', 'Doctor'),
+        ('Gol D. Roger', 'Captain'),
+        ('Brook', 'Musician');
 
-        insert into kubership.ships_crewmembers(ship, crewmember)
-        values (899,1),(899,2),(899,3),(899,4),(899,5);
+        insert into ships_crewmembers(ship, crewmember)
+        values (899,1),(899,2),(902,3),(899,4),(900,5);
 
         INSERT INTO shipments (starttime, endtime, departurelocation, arrivallocation)
         VALUES
@@ -172,4 +169,4 @@
         ('2015-08-01', 'Routine', 'Thriller Bark received routine maintenance and repairs.');
 
         insert into ships_maintenances (ship, maintenance)
-        values (899, 1),(899, 2),(899, 3),(899, 4);
+        values (899, 1),(900, 2),(900, 3),(902, 4);

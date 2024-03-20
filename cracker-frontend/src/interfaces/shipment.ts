@@ -1,7 +1,7 @@
 export default interface Shipment{
     shipmentid: number,
-    starttime: Date,
-    endtime: Date,
+    starttime: Date | undefined,
+    endtime: Date | undefined,
     departurelocation: string,
-    destinationlocation: string
+    arrivallocation: string
 }
