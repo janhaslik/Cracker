@@ -25,15 +25,15 @@ public class Ship{
     private String currentvalue;
     private Date year;
 
-    @OneToMany(mappedBy = "ship",cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "ship",cascade = CascadeType.PERSIST, orphanRemoval = true)
     @JsonIgnore
     private List<Ship_Shipment> shipments;
 
-    @OneToMany(mappedBy = "ship",cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "ship",cascade = CascadeType.PERSIST, orphanRemoval = true)
     @JsonIgnore
     private List<Ship_CrewMember> crewmembers;
 
-    @OneToMany(mappedBy = "ship",cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "ship",cascade = CascadeType.PERSIST, orphanRemoval = true)
     @JsonIgnore
     private List<Ship_Maintenance> maintenances;
 

@@ -3,6 +3,7 @@ package com.kubership.cracker.controllers;
 import com.kubership.cracker.model.Ship;
 import com.kubership.cracker.model.Ship_CrewMember;
 import com.kubership.cracker.model.Ship_Maintenance;
+import com.kubership.cracker.model.Ship_Shipment;
 import com.kubership.cracker.services.MaintenanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -56,8 +57,19 @@ public class MaintenanceController {
         return new ResponseEntity<>(crewMember, HttpStatus.OK);
     }
 
+    @PatchMapping
+    public ResponseEntity<Ship_Maintenance> updateMaintenance(@RequestBody Ship_Maintenance shipMaintenanceBody){
+        if(shipMaintenanceBody==null) return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+        Ship_Maintenance updatedShipMaintenance=maintenanceService.updateMaintenance(shipMaintenanceBody);
+
+        if(updatedShipMaintenance==null)return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        return new ResponseEntity<>(updatedShipMaintenance, HttpStatus.OK);
+    }
+
     @DeleteMapping("/{maintenanceid}")
-    public ResponseEntity<Ship> deleteMaintenance(@PathVariable("maintenanceid") int maintenanceid){
+    public ResponseEntity deleteMaintenance(@PathVariable("maintenanceid") int maintenanceid){
         if(maintenanceid<0)return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         boolean success= maintenanceService.deleteMaintenance(maintenanceid);

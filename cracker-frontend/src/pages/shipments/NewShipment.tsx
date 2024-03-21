@@ -22,8 +22,8 @@ export default function NewShipmentModal(){
         },
         shipment: {
             shipmentid: 0,
-            starttime: undefined,
-            endtime: undefined,
+            starttime: new Date(),
+            endtime: new Date(),
             departurelocation: "",
             arrivallocation: ""
         }
@@ -98,9 +98,11 @@ export default function NewShipmentModal(){
         open={open}
         onClose={handleClose}
         closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-            timeout: 500,
+        slots={{ backdrop: Backdrop }}
+        slotProps={{
+            backdrop: {
+            TransitionComponent: Fade,
+            },
         }}
         >
             <Fade in={open}>

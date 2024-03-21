@@ -23,7 +23,7 @@ export default function NewMaintenance(){
         },
         maintenance: {
             maintenanceid: 0,
-            date: undefined,
+            date: new Date(),
             type: "",
             description: ""
         }
@@ -111,9 +111,11 @@ export default function NewMaintenance(){
         open={open}
         onClose={handleClose}
         closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-            timeout: 500,
+        slots={{ backdrop: Backdrop }}
+        slotProps={{
+            backdrop: {
+            TransitionComponent: Fade,
+            },
         }}
         >
             <Fade in={open}>
@@ -135,15 +137,6 @@ export default function NewMaintenance(){
                             </MenuItem>
                         ))}
                     </TextField>
-                    
-                    <TextField
-                        type="date"
-                        label="Date"
-                        name="date"
-                        value={newMaintenance.maintenance.date}
-                        onChange={handleMaintenanceChange}
-                        sx={{ mt: 2 }}
-                    />
                     <TextField
                         type="option"
                         label="Type"
@@ -159,6 +152,14 @@ export default function NewMaintenance(){
                             </MenuItem>
                         ))}
                     </TextField>
+                    <TextField
+                        type="date"
+                        label="Date"
+                        name="date"
+                        value={newMaintenance.maintenance.date} // Convert date to string
+                        onChange={handleMaintenanceChange}
+                        sx={{ mt: 2 }}
+                    />
                     <TextField
                         label="Description"
                         name="description"

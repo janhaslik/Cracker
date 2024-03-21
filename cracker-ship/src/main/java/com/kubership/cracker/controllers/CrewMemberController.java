@@ -1,9 +1,6 @@
 package com.kubership.cracker.controllers;
 
-import com.kubership.cracker.model.CrewMember;
-import com.kubership.cracker.model.Ship;
-import com.kubership.cracker.model.Ship_CrewMember;
-import com.kubership.cracker.model.Ship_Shipment;
+import com.kubership.cracker.model.*;
 import com.kubership.cracker.services.CrewMemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -55,6 +52,17 @@ public class CrewMemberController {
         if(crewMember==null)return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         return new ResponseEntity<>(crewMember, HttpStatus.OK);
+    }
+
+    @PatchMapping
+    public ResponseEntity<Ship_CrewMember> updateCrewMember(@RequestBody Ship_CrewMember shipCrewMemberBody){
+        if(shipCrewMemberBody==null) return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+        Ship_CrewMember updatedShipCrewMember=crewMemberService.updateCrewMember(shipCrewMemberBody);
+
+        if(updatedShipCrewMember==null)return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        return new ResponseEntity<>(updatedShipCrewMember, HttpStatus.OK);
     }
 
     @DeleteMapping("/{crewmemberid}")

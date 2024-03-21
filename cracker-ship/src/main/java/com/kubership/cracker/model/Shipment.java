@@ -24,7 +24,7 @@ public class Shipment {
     private String departurelocation;
     private String arrivallocation;
 
-    @OneToMany(mappedBy = "shipment",cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "shipment",cascade = CascadeType.PERSIST, orphanRemoval = true)
     @JsonIgnore
     private List<Ship_Shipment> shipments;
 

@@ -19,7 +19,7 @@ public class CrewMember {
     private String name;
     private String role;
 
-    @OneToMany(mappedBy = "crewmember",cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "crewmember",cascade = CascadeType.PERSIST, orphanRemoval = true)
     @JsonIgnore
     private List<Ship_CrewMember> crewMembers;
 

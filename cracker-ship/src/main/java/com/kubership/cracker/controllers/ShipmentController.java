@@ -69,7 +69,7 @@ public class ShipmentController {
     }
 
     @DeleteMapping("/{shipmentid}")
-    public ResponseEntity<Ship> deleteShipment(@PathVariable("shipmentid") int shipmentid){
+    public ResponseEntity deleteShipment(@PathVariable("shipmentid") int shipmentid){
         if(shipmentid<0)return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         boolean success= shipmentService.deleteShipment(shipmentid);

@@ -21,6 +21,7 @@ public class CrewMemberService {
     private Ship_CrewMemberRepository ship_crewMemberRepository;
     @Autowired
     private ShipRepository shipRepository;
+    
     public Ship_CrewMember insertCrewMember(Ship_CrewMember shipCrewMember) {
         if (shipCrewMember == null) return null;
 
@@ -58,16 +59,18 @@ public class CrewMemberService {
         return ship_crewMemberRepository.findShip_CrewMemberByShip_Owner(ownerid);
     }
 
-    public CrewMember updateCrewMember(CrewMember crewMember){
-        Optional<CrewMember> crewMemberExists=crewMemberRepository.findById(crewMember.getCrewmemberid());
+    public Ship_CrewMember updateCrewMember(Ship_CrewMember shipCrewMember){
+        Optional<Ship_CrewMember> crewMemberOptional = ship_crewMemberRepository.findById(shipCrewMember.getId());
 
-        if(crewMemberExists.isEmpty())return null;
+        if (crewMemberOptional.isEmpty()) {
+            return null;
+        }
 
-        CrewMember crewMemberUpdated=crewMemberExists.get();
-        crewMemberUpdated.setName(crewMember.getName());
-        crewMemberUpdated.setRole(crewMember.getRole());
+        Ship_CrewMember existingCrewMember = crewMemberOptional.get();
+        existingCrewMember.setCrewmember(shipCrewMember.getCrewmember());
+        existingCrewMember.setShip(shipCrewMember.getShip());
 
-        return crewMemberRepository.save(crewMemberUpdated);
+        return ship_crewMemberRepository.save(existingCrewMember);
     }
     public boolean deleteCrewMember(int crewmemberid) {
         if (crewmemberid < 0) return false;

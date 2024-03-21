@@ -23,7 +23,7 @@ public class Maintenance {
     private String type;
     private String description;
 
-    @OneToMany(mappedBy = "maintenance",cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "maintenance",cascade = CascadeType.PERSIST, orphanRemoval = true)
     @JsonIgnore
     private List<Ship_Maintenance> maintenances;
 
