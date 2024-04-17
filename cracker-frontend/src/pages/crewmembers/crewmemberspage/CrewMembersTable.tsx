@@ -5,7 +5,7 @@ import shipService from '../../../services/shipService';
 import shipCrewMember from '../../../interfaces/shipCrewMember';
 
 interface CrewMembeTableInterface{
-    crewMembers: shipCrewMember[],
+    crewMembers?: shipCrewMember[],
 }
 
 export default function CrewMemberTable(props: CrewMembeTableInterface){
@@ -39,12 +39,16 @@ export default function CrewMemberTable(props: CrewMembeTableInterface){
 
     console.log(props.crewMembers)
     return <>
-        <DataGrid
+            {props.crewMembers ? (
+              <DataGrid
                 rows={props.crewMembers}
                 columns={columns}
                 pageSizeOptions={[5,10]}
                 getRowId={getRowId}
                 onRowSelectionModelChange={handleItemChange}
             />
+      ) : (
+        <p>No crew members available.</p>
+      )}
     </>
 }

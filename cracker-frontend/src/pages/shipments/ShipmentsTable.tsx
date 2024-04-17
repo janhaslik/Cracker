@@ -5,7 +5,7 @@ import { IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 interface ShipmentsTableInterface{
-    shipments: ShipShipment[],
+    shipments?: ShipShipment[],
 }
 
 export default function ShipmentsTable(props: ShipmentsTableInterface){
@@ -52,11 +52,15 @@ export default function ShipmentsTable(props: ShipmentsTableInterface){
     };
 
     return <>
+        {props.shipments ? (
         <DataGrid
-                rows={props.shipments}
-                columns={columns}
-                pageSizeOptions={[5,10]}
-                getRowId={getRowId}
-            />
+          rows={props.shipments}
+          columns={columns}
+          pageSizeOptions={[5, 10]}
+          getRowId={getRowId}
+        />
+      ) : (
+        <p>No shipments available.</p>
+      )}
     </>
 }

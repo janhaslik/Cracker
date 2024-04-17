@@ -2,11 +2,10 @@ import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import ShipMaintenance from '../../../interfaces/shipMaintenance';
 import { IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useNavigate } from 'react-router-dom';
 import shipService from '../../../services/shipService';
 
 interface MaintenanceTableInterface{
-    maintenances: ShipMaintenance[],
+    maintenances?: ShipMaintenance[],
 }
 
 export default function MaintenancesTable(props: MaintenanceTableInterface){
@@ -51,12 +50,16 @@ export default function MaintenancesTable(props: MaintenanceTableInterface){
 
     console.log(props.maintenances)
     return <>
-        <DataGrid
-                rows={props.maintenances}
-                columns={columns}
-                pageSizeOptions={[5,10]}
-                getRowId={getRowId}
-                onRowSelectionModelChange={handleItemChange}
-            />
+        {props.maintenances ? (
+          <DataGrid
+            rows={props.maintenances}
+            columns={columns}
+            pageSizeOptions={[5,10]}
+            getRowId={getRowId}
+            onRowSelectionModelChange={handleItemChange}
+        />
+      ) : (
+        <p>No maintenances available.</p>
+      )}
     </>
 }

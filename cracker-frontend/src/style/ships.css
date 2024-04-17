@@ -20,3 +20,78 @@
     margin-bottom: 1em;
     margin-left: auto;
 }
+
+.ship-details{
+    position: relative;
+    overflow: hidden;
+    background-color: #1B2133;
+    border-radius: 5px;
+}
+
+.ship-details-text{
+    display: flex;
+    flex-direction: column;    
+    gap: 1em;
+}
+
+.backdrop{
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.2;
+    width: 100%;
+}
+
+.ship-details-content{
+    position: relative;
+    height: 330px;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    margin-bottom: 1em;
+    width: 100%;
+    padding: 20px;
+}
+
+.ship-details-text-name{
+    font-size: 22px;
+    line-height: 22px;
+    font-weight: 600;
+    margin: 0;
+    color: white;
+}
+
+
+.ship-details-text-description{
+    color: #97a7c0;
+}
+
+.ship-details-text-detail{
+    color: #98a7c0;
+}
+
+.ship-details-text-detail strong{
+    font-weight: 900;
+}
+
+
+.ship-image{
+    border-radius: 5px;
+}
+
+.background-image{
+opacity: 0.2;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: auto;
+}
+
+.ships-tabs{
+    margin-top: 1em;
+}

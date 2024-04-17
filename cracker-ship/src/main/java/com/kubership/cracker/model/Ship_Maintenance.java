@@ -14,7 +14,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "ships_maintenances")
-@ToString
 public class Ship_Maintenance {
 
     @Id

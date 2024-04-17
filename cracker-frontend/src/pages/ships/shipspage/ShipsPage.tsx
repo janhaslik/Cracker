@@ -8,8 +8,8 @@ import NewShip from './NewShip';
 import TextField from '@mui/material/TextField';
 
 export default function ShipsPage() {
-  const [ships, setShips] = useState<Ship[]>([]);
-  const [filteredShips, setFilteredShips]=useState<Ship[]>(ships);
+  const [ships, setShips] = useState<Ship[] | undefined>([]);
+  const [filteredShips, setFilteredShips]=useState<Ship[] | undefined>(ships);
   const [filterValue, setFilterValue] = useState<string>('');
 
   useEffect(() => {
@@ -35,7 +35,7 @@ export default function ShipsPage() {
     if(searchTerm.trim()==''){
       setFilteredShips(ships)
     }else{
-      setFilteredShips(ships.filter(ship=>ship.name.toLowerCase().includes(searchTerm.toLowerCase())))
+      setFilteredShips(ships?.filter(ship=>ship.name.toLowerCase().includes(searchTerm.toLowerCase())))
     }
   }
 
@@ -45,7 +45,7 @@ export default function ShipsPage() {
             <Input className="datagrid-search" value={filterValue} onChange={handleSearchChange} placeholder='Search for ship name...'/>
             <NewShip/>
         </div>
-        <ShipsTable ships={filteredShips}/>
+        <ShipsTable ships={filteredShips!}/>
     </div>
   );
 }

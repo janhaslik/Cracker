@@ -31,7 +31,8 @@ public class MaintenanceService {
 
     public List<Ship_Maintenance> getMaintenancesByShipnr(int shipnr) {
         if (shipnr < 0) return null;
-
+        List<Ship_Maintenance> test=ship_maintenanceRepository.findByShip_Shipnr(shipnr);
+        System.out.println("test: "+test);
         return ship_maintenanceRepository.findByShip_Shipnr(shipnr);
     }
     public Ship_Maintenance insertMaintenance(Ship_Maintenance shipMaintenance) {

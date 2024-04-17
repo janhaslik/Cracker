@@ -167,7 +167,7 @@ export default function NewMaintenance(){
                         onChange={handleMaintenanceChange}
                         sx={{ mt: 2 }}
                     />
-                    <Button color="secondary" onClick={handleNewShipment} sx={{ mt: 2 }}>Add Shipment</Button>
+                    <Button color="secondary" onClick={handleNewShipment} sx={{ mt: 2 }}>Add Maintenance</Button>
                 </Box>
             </Fade>
         </Modal>

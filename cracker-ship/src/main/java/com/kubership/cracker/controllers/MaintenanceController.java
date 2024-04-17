@@ -5,6 +5,7 @@ import com.kubership.cracker.model.Ship_CrewMember;
 import com.kubership.cracker.model.Ship_Maintenance;
 import com.kubership.cracker.model.Ship_Shipment;
 import com.kubership.cracker.services.MaintenanceService;
+import jdk.swing.interop.SwingInterOpUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +17,9 @@ import java.util.List;
 @RequestMapping("/api/ships/maintenances")
 @CrossOrigin("http://localhost:5173")
 public class MaintenanceController {
+
     @Autowired
     private MaintenanceService maintenanceService;
-
-
     @GetMapping
     public ResponseEntity<List<Ship_Maintenance>> getMaintenances(@RequestParam(name = "ownerid", required = false) Integer ownerid,
                                                                  @RequestParam(name="shipnr", required = false) Integer shipnr) {
@@ -32,7 +32,7 @@ public class MaintenanceController {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
             return new ResponseEntity<>(maintenancesByOwner, HttpStatus.OK);
-        } else if (shipnr != null && ownerid == null) {
+        } else{
             if (shipnr < 0) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
@@ -41,8 +41,6 @@ public class MaintenanceController {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
             return new ResponseEntity<>(maintenancesByShipnr, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
