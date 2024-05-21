@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { Input } from '@mui/base';
-import { Button } from '@mui/material';
 import shipService from '../../../services/shipService';
 import ShipMaintenance from '../../../interfaces/shipMaintenance';
 import MaintenancesTable from './MaintenancesTable';

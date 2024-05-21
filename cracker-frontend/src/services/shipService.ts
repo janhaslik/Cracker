@@ -17,7 +17,7 @@ async function deleteCrewMember(crewmemberid: number){
 
 async function getMaintenances(){
     const res=await (await fetch("http://localhost:9000/api/ships/maintenances?ownerid=1")).json()
-    console.log(res)
+    return res
 }
 
 async function getShipments(): Promise<ShipShipment[] | undefined> {

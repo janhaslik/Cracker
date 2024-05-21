@@ -14,8 +14,10 @@ export default function ShipmentsPage() {
     const getShipments = async () => {
       try {
         const shipmentsData = await shipService.getShipments();
-          setShipments(shipmentsData);
-          setFilteredShipments(shipmentsData)
+          if(shipmentsData!=null){
+            setShipments(shipmentsData);
+            setFilteredShipments(shipmentsData)
+          }
       } catch (error) {
         console.error('Error fetching ship data:', error);
       }
